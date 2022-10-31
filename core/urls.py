@@ -1,4 +1,4 @@
-"""FragranceAPI URL Configuration
+"""core URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -15,15 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-# from rest_framework.authtoken.views import obtain_auth_token
-from FFYapp.views import RegistrationAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
 
 urlpatterns = [
-    path('auth/register/', RegistrationAPIView.as_view(), name = 'register'),
-    path('auth/login', TokenObtainPairView.as_view() , name = 'login'),
-    path('auth/refresh-token', TokenRefreshView.as_view(), name = 'refreshtoken'),
     path('admin/', admin.site.urls),
-    path('api/v1/', include('FFYapp.urls')),
-    # path('api/v1/auth/auth-token', obtain_auth_token, name='obtain-auth-token'),
+    path('api/v1/', include('fragnance.urls')),
 ]
