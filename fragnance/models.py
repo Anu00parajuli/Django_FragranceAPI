@@ -34,14 +34,21 @@ class Fragrance(models.Model):
 
 
 class Cart(models.Model):
-    cart_id = models.OneToOneField(User,
-                                   on_delete=models.CASCADE,
-                                   primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     fragrances = models.ManyToManyField(Fragrance)
 
     class Meta:
-        ordering = ['cart_id', '-created_at']
+        ordering = ['-created_at']
 
-    def __str__(self):
-        return f'{self.cart_id}'
+    def save(self,
+             force_insert=False,
+             force_update=False,
+             using=None,
+             update_fields=None):
+        if not Cart.objects.filter(user=self.user).exists():
+            return super().save(force_insert, force_update, using,
+                                update_fields)
+        cart = Cart.objects.get(user=self.user)
+        cart.fragrances.add(*self.fragrances.all())
+        return cart

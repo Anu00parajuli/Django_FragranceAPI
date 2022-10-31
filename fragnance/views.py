@@ -1,6 +1,5 @@
 from rest_framework import (
-    permissions,
-)
+    permissions, )
 from rest_framework.viewsets import ModelViewSet
 
 from .models import (
@@ -16,18 +15,21 @@ from .serializers import (
 
 
 class BrandViewSet(ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
 
 
 class FraganceViewSet(ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
     queryset = Fragrance.objects.all()
     serializer_class = FragranceSerializer
 
 
 class CartViewSet(ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)

@@ -8,8 +8,8 @@ from .models import (
 )
 
 
-
 class BrandSerializer(serializers.ModelSerializer):
+
     class Meta:
         fields = (
             'id',
@@ -19,6 +19,7 @@ class BrandSerializer(serializers.ModelSerializer):
 
 
 class FragranceSerializer(serializers.ModelSerializer):
+
     class Meta:
         fields = (
             'id',
@@ -49,20 +50,27 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CartUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('username', 'email')
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cart_id = CartUserSerializer(read_only=True, many=True),
-    fragrances = FragranceSerializer(read_only=True, many=True),
+    user = CartUserSerializer(read_only=True)
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['fragrances'] = FragranceSerializer(
+            instance.fragrances.all(), many=True).data
+        return response
+
+
 
     class Meta:
-        model = Cart,
+        model = Cart
         fields = (
-            'card_id',
+            'user',
             'created_at',
             'fragrances',
-            'products',
         )
