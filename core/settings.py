@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'dj_rest_auth',
 
     # Local apps
     'fragnance',
@@ -50,9 +51,7 @@ REST_FRAMEWORK = {
     ],
 }
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:4200",
-    "http://web.postman.co"
+    "http://localhost:3000", "http://localhost:4200", "http://web.postman.co"
 ]
 CORS_ALLOW_METHODS = [
     "GET",
@@ -107,16 +106,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 

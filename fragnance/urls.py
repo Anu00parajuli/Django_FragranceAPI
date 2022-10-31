@@ -3,12 +3,10 @@ from django.urls import path
 from .views import (
     DetailBrand,
     DetailFragrance,
-    DetailProduct,
     DetailUser,
     ListBrand,
     ListCart,
     ListFragrance,
-    ListProduct,
     ListUser,
 )
 
@@ -19,8 +17,6 @@ urlpatterns = [
     path('fragrance/<int:pk>/',
          DetailFragrance.as_view(),
          name='singlefragrance'),
-    path('products/', ListProduct.as_view(), name='product'),
-    path('products/<int:pk>/', DetailProduct.as_view(), name='singleproduct'),
     path('users', ListUser.as_view(), name='user'),
     path('users/<int:pk>/', DetailUser.as_view(), name='singleuser'),
     path('carts/', ListCart.as_view(), name='cart'),

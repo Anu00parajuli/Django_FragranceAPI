@@ -12,13 +12,11 @@ from .models import (
     Brand,
     Cart,
     Fragrance,
-    Product,
 )
 from .serializers import (
     BrandSerializer,
     CartSerializer,
     FragranceSerializer,
-    ProductSerializer,
     RegistrationSerializer,
     UserSerializer,
 )
@@ -65,18 +63,6 @@ class DetailFragrance(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, )
     queryset = Fragrance.objects.all()
     serializer_class = FragranceSerializer
-
-
-class ListProduct(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-class DetailProduct(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
 
 
 class ListUser(generics.ListCreateAPIView):

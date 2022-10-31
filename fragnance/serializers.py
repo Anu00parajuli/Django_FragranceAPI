@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from .models import (
     Brand,
     Cart,
     Fragrance,
-    Product,
 )
 
 
@@ -18,25 +18,25 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password')
 
-        def validate(self, args):
+        @staticmethod
+        def validate(args):
             email = args.get('email', None)
             username = args.get('username', None)
 
             if User.objects.filter(email=email).exists():
                 raise serializers.ValidationError(
-                    {'email': ('email already exists')})
+                    {'email': _('Email already exists')})
             if User.objects.filter(username=username).exists():
                 raise serializers.ValidationError(
-                    {'username': ('username already exists')})
+                    {'username': _('username already exists')})
+            return args
 
-            return super().validate(args)
-
-        def create(self, validated_data):
+        @staticmethod
+        def create(validated_data):
             return User.objects.create_user(**validated_data)
 
 
 class BrandSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = (
             'id',
@@ -46,7 +46,6 @@ class BrandSerializer(serializers.ModelSerializer):
 
 
 class FragranceSerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = (
             'id',
@@ -62,28 +61,9 @@ class FragranceSerializer(serializers.ModelSerializer):
         model = Fragrance
 
 
-class ProductSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        fields = (
-            'id',
-            'product_tag',
-            'name',
-            'brand',
-            'price',
-            'stock',
-            'imageUrl',
-            'status',
-            'date_created',
-        )
-        model = Product
-
-
 class UserSerializer(serializers.ModelSerializer):
     fragrances = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Fragrance.objects.all())
-    products = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Product.objects.all())
 
     class Meta:
         model = User
@@ -92,12 +72,10 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'email',
             'fragrances',
-            'products',
         )
 
 
 class CartUserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ('username', 'email')
@@ -106,7 +84,6 @@ class CartUserSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_id = CartUserSerializer(read_only=True, many=True),
     fragrances = FragranceSerializer(read_only=True, many=True),
-    products = ProductSerializer(read_only=True, many=True)
 
     class Meta:
         model = Cart,
@@ -116,19 +93,3 @@ class CartSerializer(serializers.ModelSerializer):
             'fragrances',
             'products',
         )
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     books = serializers.PrimaryKeyRelatedField(many=True, queryset=Fragrance.objects.all())
-#     products = serializers.PrimaryKeyRelatedField(many=True, queryset=Product.objects.all())
-#
-#     class Meta:
-#         model = User
-#         fields = (
-#             'id',
-#             'username',
-#             'email',
-#             'fragrances',
-#             'products',
-#         )
-#
