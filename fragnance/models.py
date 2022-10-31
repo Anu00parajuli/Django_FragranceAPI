@@ -19,14 +19,10 @@ class Fragrance(models.Model):
     brand = models.ForeignKey(Brand,
                               related_name='fragrances',
                               on_delete=models.CASCADE)
-    # author = models.CharField(max_length=100, default='John Doe')
-    # isbn = models.CharField(max_length=13)
-    # pages = models.IntegerField()
     price = models.IntegerField()
     stock = models.IntegerField()
     description = models.TextField()
-    imageUrl = models.URLField()
-    # created_by = models.ForeignKey('auth.User', related_name='books', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     status = models.BooleanField(default=True)
     date_created = models.DateField(auto_now_add=True)
 

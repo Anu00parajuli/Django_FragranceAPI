@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from .models import (
@@ -8,32 +7,6 @@ from .models import (
     Fragrance,
 )
 
-
-class RegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=50, min_length=6)
-    username = serializers.CharField(max_length=50, min_length=6)
-    password = serializers.CharField(max_length=150, write_only=True)
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email', 'username', 'password')
-
-        @staticmethod
-        def validate(args):
-            email = args.get('email', None)
-            username = args.get('username', None)
-
-            if User.objects.filter(email=email).exists():
-                raise serializers.ValidationError(
-                    {'email': _('Email already exists')})
-            if User.objects.filter(username=username).exists():
-                raise serializers.ValidationError(
-                    {'username': _('username already exists')})
-            return args
-
-        @staticmethod
-        def create(validated_data):
-            return User.objects.create_user(**validated_data)
 
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -54,7 +27,7 @@ class FragranceSerializer(serializers.ModelSerializer):
             'price',
             'stock',
             'description',
-            'imageUrl',
+            'image',
             'status',
             'date_created',
         )

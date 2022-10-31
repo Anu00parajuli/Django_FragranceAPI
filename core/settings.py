@@ -38,6 +38,9 @@ INSTALLED_APPS = [
 
     # Third party apps
     'corsheaders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
@@ -137,7 +140,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'assets' / 'static_serve'
+STATICFILES_DIRS = [
+    BASE_DIR / 'assets' / 'static_files',
+]
+
+MEDIA_ROOT = BASE_DIR / 'assets' / 'media_serve'
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
